@@ -4,7 +4,7 @@ This library simplifies the execution and management of asynchronous tasks in a 
 
 ## Pipelines Module
 
-[View the src folder](https://github.com/brunofreitasv/asyncronaut/tree/main/src/Asyncronaut/Pipeline)
+[View the src folder](https://github.com/brunofreitasv/asyncronaut/tree/master/src/Asyncronaut/Pipeline)
 
 Pipelines module is designed to facilitate the construction and execution of complex asynchronous workflows. It offers a structured and intuitive approach to managing a series of interdependent tasks, making it easier to handle concurrency, error management, and result propagation in your applications.
 
