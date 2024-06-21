@@ -27,6 +27,7 @@ Pipelines module is designed to facilitate the construction and execution of com
 Here's a basic example demonstrating how to create a pipeline with two stages:
 
 ```csharp
+using System;
 using System.Threading.Tasks;
 using Asyncronaut.Pipeline;
 
@@ -39,18 +40,24 @@ public class ExampleUsage
         pipeline.AddStage("Stage 1 - Sequential Tasks", stage =>
         {
             stage.SetExecutionMode(ExecutionMode.Sequential)
-                .AddTask(async () => Console.WriteLine("Task 1.1"))
-                .AddTask(async () => Console.WriteLine("Task 1.2 with captured value from previous task"));
+                .AddTask(WriteToConsoleAndWait, ("Sequential Task 1.1", TimeSpan.FromSeconds(3)))
+                .AddTask(WriteToConsoleAndWait, ("Sequential Task 1.2", TimeSpan.FromSeconds(4)));
         });
 
         pipeline.AddStage("Stage 2 - Parallel Tasks", stage =>
         {
             stage.SetExecutionMode(ExecutionMode.Parallel)
-                .AddTask(async () => Console.WriteLine("Parallel Task 2.1"))
-                .AddTask(async () => Console.WriteLine("Parallel Task 2.2"));
+                .AddTask(WriteToConsoleAndWait, ("Parallel Task 2.1", TimeSpan.Zero))
+                .AddTask(WriteToConsoleAndWait, ("Parallel Task 2.2", TimeSpan.Zero));
         });
 
         await pipeline.RunAsync();
+    }
+
+    public static async Task WriteToConsoleAndWait((string message, TimeSpan delay) input)
+    {
+        Console.WriteLine(input.message);
+        await Task.Delay(input.delay);
     }
 
     public static void Main(string[] args)
