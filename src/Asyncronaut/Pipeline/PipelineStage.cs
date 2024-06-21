@@ -40,7 +40,7 @@ namespace Asyncronaut.Pipeline
             }));
         }
 
-        public void AddTask<TOutput>(Func<Task<TOutput>> task, out TOutput output)
+        public void AddTask<TOutput>(Func<Task<TOutput>> task, out Task<TOutput> output)
         {
             var captureOutput = new TaskCompletionSource<TOutput>();
             _tasks.Add(new PipelineTask(async () =>
@@ -48,10 +48,10 @@ namespace Asyncronaut.Pipeline
                 var result = await task.Invoke();
                 captureOutput.SetResult(result);
             }));
-            output = captureOutput.Task.Result;
+            output = captureOutput.Task;
         }
 
-        public void AddTask<TInput, TOutput>(Func<TInput, Task<TOutput>> task, TInput input, out TOutput output)
+        public void AddTask<TInput, TOutput>(Func<TInput, Task<TOutput>> task, TInput input, out Task<TOutput> output)
         {
             var captureOutput = new TaskCompletionSource<TOutput>();
             _tasks.Add(new PipelineTask(async () =>
@@ -59,7 +59,7 @@ namespace Asyncronaut.Pipeline
                 var result = await task.Invoke(input);
                 captureOutput.SetResult(result);
             }));
-            output = captureOutput.Task.Result;
+            output = captureOutput.Task;
         }
 
         public async Task RunAsync()
@@ -87,7 +87,7 @@ namespace Asyncronaut.Pipeline
             catch (Exception ex)
             {
                 _hasError = true;
-                _errorMessage = $"error in stage {_stageName}: {ex.Message}";
+                _errorMessage = $"Error in stage '{_stageName}' -> {ex.Message}.";
             }
         }
     }

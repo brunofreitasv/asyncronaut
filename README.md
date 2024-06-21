@@ -1,6 +1,6 @@
 # Asyncronaut - Simplify Asynchronous Task Management in .NET
 
-This library simplifies the execution and management of asynchronous tasks in a structured and efficient way. It provides a clear approach for defining stages with sequential or parallel execution modes, capturing results from previous tasks.
+This library simplifies the execution and management of asynchronous tasks in a structured and efficient way;,. It provides a clear approach for defining stages with sequential or parallel execution modes, capturing results from previous tasks.
 
 ## Pipelines Module
 
@@ -70,5 +70,5 @@ public class ExampleUsage
 
 ### Advanced Usage
 
-- **Capturing Results:** Use `AddTask` with output parameters (`TOutput`) to capture results from previous tasks and pass them to subsequent tasks within the same stage.
+- **Capturing Results:** Use `AddTask` with output parameters (`Task<TOutput>`) to capture results from previous tasks and pass them to subsequent tasks within the same pipeline.
 - **Error Handling:** Exceptions within tasks are automatically caught by the pipeline. The `HasError` property on `PipelineStage` and `ErrorMessage` provide details about encountered errors.

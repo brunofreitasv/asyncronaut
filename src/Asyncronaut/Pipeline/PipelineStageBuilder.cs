@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Asyncronaut.Pipeline
@@ -33,13 +30,25 @@ namespace Asyncronaut.Pipeline
             return this;
         }
 
-        public PipelineStageBuilder AddTask<TOutput>(Func<Task<TOutput>> task, out TOutput output)
+        public PipelineStageBuilder AddTask<TInput>(Func<Task<TInput>, Task> task, Task<TInput> input)
+        {
+            _stage.AddTask(task, input);
+            return this;
+        }
+
+        public PipelineStageBuilder AddTask<TOutput>(Func<Task<TOutput>> task, out Task<TOutput> output)
         {
             _stage.AddTask(task, out output);
             return this;
         }
 
-        public PipelineStageBuilder AddTask<TInput, TOutput>(Func<TInput, Task<TOutput>> task, TInput input, out TOutput output)
+        public PipelineStageBuilder AddTask<TInput, TOutput>(Func<TInput, Task<TOutput>> task, TInput input, out Task<TOutput> output)
+        {
+            _stage.AddTask(task, input, out output);
+            return this;
+        }
+
+        public PipelineStageBuilder AddTask<TInput, TOutput>(Func<Task<TInput>, Task<TOutput>> task, Task<TInput> input, out Task<TOutput> output)
         {
             _stage.AddTask(task, input, out output);
             return this;
